@@ -27,7 +27,7 @@ async function loadWisataData() {
       <div class="swiper-slide wisata-slide">
         <div class="wisata-card">
           <div class="wisata-img-wrap">
-            <img src="${item.gambar}" alt="${item.nama}" loading="lazy">
+            <img src="${item.gambar}" alt="${item.nama}" loading="lazy" decoding="async">
             <span class="wisata-badge">${item.kategori}</span>
           </div>
           <div class="wisata-info-box">
@@ -67,7 +67,7 @@ async function loadUmkmData() {
     grid.innerHTML = data.map((item) => `
       <div class="umkm-card reveal">
         <div class="umkm-img-wrap">
-          <img src="${item.gambar}" alt="${item.nama}" loading="lazy">
+          <img src="${item.gambar}" alt="${item.nama}" loading="lazy" decoding="async">
           <div class="umkm-owner">Pemilik: ${item.pemilik}</div>
         </div>
         <div class="umkm-body">

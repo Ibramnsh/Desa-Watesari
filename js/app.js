@@ -515,26 +515,42 @@ function initWisataSwiper() {
   const container = document.querySelector(".wisata-swiper");
   if (!container) return;
 
+  // Make Swiper lighter and more responsive:
+  // - disable heavy 3D depths on small screens
+  // - enable Swiper lazy loading and avoid preloading all images
+  // - reduce animation speed and autoplay on small devices
+  const isMobile = window.matchMedia('(max-width: 767px)').matches;
   const wisataSwiper = new Swiper(".wisata-swiper", {
     effect: "coverflow",
     grabCursor: true,
     centeredSlides: true,
     slidesPerView: 1,
-    spaceBetween: 16,
+    spaceBetween: 12,
     loop: true,
-    speed: 800,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true,
+    speed: 600,
+    autoplay: isMobile
+      ? false
+      : {
+          delay: 4500,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        },
+    preloadImages: false,
+    lazy: {
+      loadPrevNext: true,
+      loadPrevNextAmount: 1,
+      loadOnTransitionStart: true,
     },
     coverflowEffect: {
-      rotate: 15,
+      rotate: 12,
       stretch: 0,
-      depth: 150,
-      modifier: 1.5,
+      depth: isMobile ? 40 : 120,
+      modifier: isMobile ? 0.9 : 1.2,
       slideShadows: false,
     },
+    watchSlidesProgress: true,
+    observer: true,
+    observeParents: true,
     pagination: {
       el: ".swiper-pagination",
       clickable: true,
@@ -545,41 +561,31 @@ function initWisataSwiper() {
       prevEl: ".swiper-button-prev",
     },
     breakpoints: {
+      // Keep slidesPerView conservative to reduce resource usage
       320: {
         slidesPerView: 1,
+        spaceBetween: 10,
+        coverflowEffect: { rotate: 4, depth: 35, modifier: 0.85 },
+      },
+      576: {
+        slidesPerView: 1.05,
         spaceBetween: 12,
-        coverflowEffect: {
-          rotate: 4,
-          depth: 35,
-          modifier: 0.9,
-        },
+        coverflowEffect: { rotate: 6, depth: 50, modifier: 0.9 },
       },
       768: {
-        slidesPerView: 1.15,
-        spaceBetween: 18,
-        coverflowEffect: {
-          rotate: 8,
-          depth: 80,
-          modifier: 1.1,
-        },
+        slidesPerView: 1.2,
+        spaceBetween: 14,
+        coverflowEffect: { rotate: 8, depth: 80, modifier: 1.0 },
       },
       1024: {
-        slidesPerView: 2.5,
-        spaceBetween: 20,
-        coverflowEffect: {
-          rotate: 12,
-          depth: 120,
-          modifier: 1.2,
-        },
+        slidesPerView: 2,
+        spaceBetween: 18,
+        coverflowEffect: { rotate: 10, depth: 100, modifier: 1.1 },
       },
       1280: {
-        slidesPerView: 3.2,
-        spaceBetween: 24,
-        coverflowEffect: {
-          rotate: 15,
-          depth: 150,
-          modifier: 1.5,
-        },
+        slidesPerView: 2.6,
+        spaceBetween: 22,
+        coverflowEffect: { rotate: 12, depth: 120, modifier: 1.2 },
       },
     },
   });
